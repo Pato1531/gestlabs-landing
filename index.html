@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GestLabs — Plataformas para institutos de inglés</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink:       #F7F6F3;
+  --ink2:      #EFEEE9;
+  --ink3:      #E6E4DE;
+  --surface:   #DDDBD4;
+  --line:      rgba(12,36,64,0.08);
+  --line2:     rgba(12,36,64,0.13);
+  --text:      #0C1A2E;
+  --muted:     rgba(12,26,46,0.50);
+  --dimmed:    rgba(12,26,46,0.30);
+  --on-blue:   #0C447C;
+  --on-teal:   #0F6E56;
+  --on-teal2:  #1D9E75;
+  --on-surf:   rgba(12,68,124,0.07);
+  --edu-v:     #3C3489;
+  --edu-v2:    #534AB7;
+  --edu-coral: #D85A30;
+  --edu-surf:  rgba(60,52,137,0.07);
+  --serif:     'DM Serif Display', Georgia, serif;
+  --sans:      'Plus Jakarta Sans', system-ui, sans-serif;
+  --r:         14px;
+  --r2:        20px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--ink);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── TEXTURA DE FONDO ── */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    radial-gradient(ellipse 65% 45% at 0% 0%, rgba(12,68,124,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 40% at 100% 100%, rgba(60,52,137,0.07) 0%, transparent 55%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ─────── NAV ─────── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 clamp(1.25rem,5vw,3rem);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(250,250,248,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid var(--line);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.nav-wordmark {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.nav-wordmark span { color: #534AB7; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+@media(max-width:640px){ .nav-links { display:none; } }
+
+.nav-links a {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+.nav-cta {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 40px;
+  border: 1px solid var(--line2);
+  color: var(--text);
+  text-decoration: none;
+  background: rgba(0,0,0,0.04);
+  transition: background .2s, border-color .2s;
+  white-space: nowrap;
+}
+.nav-cta:hover { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.18); }
+
+/* ─────── CONTAINER ─────── */
+.container {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem,5vw,3rem);
+}
+
+/* ─────── HERO ─────── */
+.hero {
+  position: relative;
+  z-index: 1;
+  padding: clamp(3rem,7vh,5rem) 0 clamp(2.5rem,5vh,4rem);
+}
+
+.hero-inner {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem,5vw,3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+}
+
+/* Fila superior: eyebrow + headline full ancho */
+.hero-top {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+/* Fila inferior: párrafo + botones centrados */
+.hero-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 620px;
+  width: 100%;
+}
+
+.hero-left { display: flex; flex-direction: column; gap: 1.5rem; align-items: center; }
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hero-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+  opacity: 0;
+  animation: fadeUp .8s .65s forwards;
+}
+
+@media(max-width:560px){
+  .hero-cards { grid-template-columns: 1fr; }
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--on-blue);
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fadeUp .6s .1s forwards;
+}
+.hero-eyebrow::before {
+  content:'';
+  width:24px; height:1.5px;
+  background: var(--on-blue);
+  display:block;
+}
+
+.hero-headline {
+  font-family: var(--serif);
+  font-size: clamp(3.2rem, 6.5vw, 6rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  max-width: 100%;
+  margin-bottom: 0;
+  opacity: 0;
+  animation: fadeUp .7s .2s forwards;
+}
+.hero-headline em {
+  font-style: italic;
+  color: var(--on-teal2);
+}
+
+.hero-sub {
+  font-size: clamp(.95rem, 1.1vw, 1.1rem);
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 100%;
+  line-height: 1.8;
+  margin-bottom: 0;
+  opacity: 0;
+  animation: fadeUp .7s .35s forwards;
+}
+
+/* Mobile adjustments */
+@media(max-width:860px){
+  .hero-headline { font-size: clamp(2.8rem, 10vw, 4rem); }
+  .hero-sub      { font-size: 1rem; }
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeUp .7s .5s forwards;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 40px;
+  background: var(--on-blue);
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+  letter-spacing: 0.01em;
+}
+.btn-primary:hover { background: #185FA5; transform: translateY(-1px); }
+
+/* WhatsApp button — azul brand */
+.btn-wa { background: var(--on-blue) !important; }
+.btn-wa:hover { background: #185FA5 !important; }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 14px 24px;
+  border-radius: 40px;
+  background: rgba(12,68,124,0.10);
+  color: var(--on-blue);
+  text-decoration: none;
+  border: 1.5px solid rgba(12,68,124,0.25);
+  cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.btn-ghost:hover { background: rgba(12,68,124,0.16); border-color: rgba(12,68,124,0.4); color: var(--on-blue); }
+
+.hero-left { display: flex; flex-direction: column; gap: 1.5rem; justify-content: flex-start; }
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hero-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+  opacity: 0;
+  animation: fadeUp .8s .65s forwards;
+}
+@media(max-width:560px){ .hero-cards { grid-template-columns: 1fr; } }
+
+.hero-card {
+  border-radius: var(--r2);
+  border: 1px solid var(--line2);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  background: #FFFFFF;
+  transition: transform .25s, border-color .25s, box-shadow .25s;
+  cursor: default;
+}
+.hero-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0,0,0,0.14);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+}
+
+.hero-card-icon { margin-bottom: .25rem; }
+
+.hero-card-body h3 {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+.hero-card-body p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-top: 8px;
+}
+.tag-teal  { background: rgba(12,68,124,0.08);  color: #0C447C; }
+.tag-coral { background: rgba(60,52,137,0.08); color: #3C3489; }
+
+/* ─────── STATS BAR ─────── */
+.stats-bar {
+  position: relative;
+  z-index: 1;
+  padding: clamp(1.5rem,4vh,2.5rem) 0;
+  border-top: 0.5px solid var(--line);
+  border-bottom: 0.5px solid var(--line);
+  background: rgba(255,255,255,0.5);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 120px;
+}
+.stat-num {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1;
+  color: var(--on-blue);
+  letter-spacing: -0.03em;
+}
+.stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dimmed);
+  letter-spacing: 0.05em;
+}
+
+/* ─────── SECTION BASE ─────── */
+section {
+  position: relative;
+  z-index: 1;
+  padding: clamp(3rem,8vh,6rem) 0;
+}
+
+.section-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem,5vw,3rem);
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dimmed);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 4.5vw, 3.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+  max-width: 560px;
+}
+.section-title em { font-style:italic; color: var(--on-teal2); }
+
+.section-sub {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 500px;
+  line-height: 1.75;
+  margin-bottom: 3rem;
+}
+
+/* ─────── PRODUCTS SECTION ─────── */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+  gap: 1.25rem;
+}
+
+.product-card {
+  border-radius: var(--r2);
+  border: 1px solid var(--line2);
+  overflow: hidden;
+  background: #FFFFFF;
+  transition: transform .3s, box-shadow .3s;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+}
+
+.product-card-header {
+  padding: 2rem 2rem 1.5rem;
+  position: relative;
+}
+
+.product-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.25rem;
+}
+
+.product-name {
+  font-family: var(--serif);
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.product-sub {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.product-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.product-features {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+.feature-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.feature-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.product-card-footer {
+  padding: 1.25rem 2rem 1.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.product-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: gap .2s;
+}
+.product-link:hover { gap: 10px; }
+.product-link .arrow { font-size: 16px; }
+
+/* ongest accent */
+.ongest-accent .product-sub  { color: var(--on-blue); }
+.ongest-accent .feature-dot  { background: var(--on-teal2); }
+.ongest-accent .product-link { color: var(--on-teal2); }
+.ongest-accent .product-card-header {
+  border-bottom: 2px solid rgba(12,68,124,0.12);
+}
+
+/* edugest accent */
+.edugest-accent .product-sub  { color: var(--edu-v2); }
+.edugest-accent .feature-dot  { background: var(--edu-coral); }
+.edugest-accent .product-link { color: var(--edu-coral); }
+.edugest-accent .product-card-header {
+  border-bottom: 2px solid rgba(60,52,137,0.12);
+}
+
+/* ─────── DIFERENCIADORES ─────── */
+.diff-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line2);
+  border: 1px solid var(--line2);
+  border-radius: var(--r2);
+  overflow: hidden;
+  margin-top: 3rem;
+}
+@media(max-width:720px){
+  .diff-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media(max-width:460px){
+  .diff-grid { grid-template-columns: 1fr; }
+}
+
+.diff-item {
+  background: #FFFFFF;
+  padding: 2rem 1.75rem;
+  transition: background .2s;
+}
+.diff-item:hover { background: var(--ink2); }
+
+.diff-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.diff-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.diff-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* ─────── TESTIMONIAL / PRUEBA SOCIAL ─────── */
+.proof-section {
+  background: var(--ink2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: clamp(3rem,6vh,5rem) 0;
+}
+
+.proof-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem,5vw,3rem);
+}
+@media(max-width:600px){ .proof-inner { grid-template-columns:1fr; gap:2rem; } }
+
+.proof-quote {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem,2.5vw,1.5rem);
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.proof-author {
+  font-size: 13px;
+  color: var(--dimmed);
+  font-weight: 500;
+}
+
+.proof-stat-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.proof-stat {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+.proof-stat-num {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  min-width: 80px;
+}
+.proof-stat-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.55;
+  padding-top: 6px;
+}
+
+/* ─────── CTA FINAL ─────── */
+.cta-section {
+  text-align: center;
+  padding: clamp(4rem,10vh,8rem) clamp(1.25rem,5vw,3rem);
+}
+
+.cta-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem,5vw,3.8rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin-bottom: 1rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-title em { font-style:italic; color: var(--on-teal); }
+
+.cta-sub {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 420px;
+  margin: 0 auto 2.5rem;
+  line-height: 2;
+  font-weight: 300;
+}
+.cta-sub strong { color: var(--text); font-weight: 700; }
+
+.cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .75rem;
+  margin-bottom: 2rem;
+}
+
+.cta-note {
+  font-size: 12px;
+  color: var(--dimmed);
+  letter-spacing: 0.04em;
+}
+
+/* ─────── FOOTER ─────── */
+footer {
+  position: relative;
+  z-index: 1;
+  padding: 1.75rem clamp(1.25rem,5vw,3rem);
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 2rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-logo {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.footer-logo span { color: #534AB7; }
+
+.footer-legal {
+  font-size: 12px;
+  color: var(--dimmed);
+}
+
+/* ─────── ANIMATIONS ─────── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .65s, transform .65s;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─────── SCROLLBAR ─────── */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--ink); }
+::-webkit-scrollbar-thumb { background:var(--surface); border-radius:3px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav>
+  <a href="#" class="nav-logo" aria-label="GestLabs inicio">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <rect width="32" height="32" rx="8" fill="#0C447C"/>
+      <path d="M16 5C10.477 5 6 9.477 6 15C6 20.523 10.477 25 16 25C21.523 25 26 20.523 26 15V13H16V16.5H22.5C22 18.8 19.7 20.5 16 20.5C12.134 20.5 9 17.866 9 14.5C9 11.134 12.134 8.5 16 8.5C17.811 8.5 19.43 9.193 20.657 10.343L23.07 8.07C21.175 6.175 18.718 5 16 5Z" fill="white"/>
+      <circle cx="25" cy="8" r="4" fill="#1D9E75"/>
+    </svg>
+    <span class="nav-wordmark">Gest<span>Labs</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#productos">Productos</a></li>
+    <li><a href="#diferenciadores">Por qué GestLabs</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#demo" class="nav-cta">Solicitar demo →</a>
+</nav>
+
+<section class="hero">
+<div class="hero-inner">
+
+  <!-- eyebrow + headline full ancho -->
+  <div class="hero-top">
+    <p class="hero-eyebrow">Plataformas para institutos de inglés</p>
+    <h1 class="hero-headline">
+      Todo lo que tu instituto necesita,<br/><em>en un solo lugar</em>
+    </h1>
+  </div>
+
+  <!-- párrafo + botones -->
+  <div class="hero-bottom" style="display:block;">
+    <p class="hero-sub">
+      GestLabs desarrolla software para institutos de inglés: evaluaciones, pagos y gestión diaria en una sola plataforma. Sin planillas, sin herramientas dispersas y sin pérdida de información.
+    </p>
+    <div class="hero-actions">
+      <a href="#demo" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="white" stroke-width="1.5"/><path d="M6 5.5L11 8L6 10.5V5.5Z" fill="white"/></svg>
+        Solicitar demo
+      </a>
+      <a href="#productos" class="btn-ghost">Conocer productos</a>
+    </div>
+  </div>
+
+</div><!-- /hero-inner -->
+</section>
+
+<!-- ══════════ STATS ══════════ -->
+<div class="stats-bar" role="region" aria-label="Estadísticas clave">
+  <div class="container" style="display:flex;flex-wrap:wrap;gap:2rem;width:100%;">
+  <div class="stat">
+    <span class="stat-num">19+</span>
+    <span class="stat-label">Institutos en producción</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">5</span>
+    <span class="stat-label">Roles de acceso</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">&lt;30s</span>
+    <span class="stat-label">Para registrar un pago</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">24hs</span>
+    <span class="stat-label">Alta y operando</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">100%</span>
+    <span class="stat-label">Online, sin instalar</span>
+  </div>
+  </div>
+</div>
+
+<!-- ══════════ PRODUCTS ══════════ -->
+<section id="productos">
+  <div class="section-inner">
+  <p class="section-label reveal">Nuestros productos</p>
+  <h2 class="section-title reveal">Dos plataformas,<br/><em>un mismo ecosistema</em></h2>
+  <p class="section-sub reveal">
+    OnGest y EduGest comparten arquitectura, datos y seguridad,<br/>pero resuelven diferentes dimensiones del instituto.
+  </p>
+
+  <div class="products-grid reveal">
+
+    <!-- ONGEST -->
+    <div class="product-card ongest-accent">
+      <div class="product-card-header">
+        <div class="product-logo-row">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect width="48" height="48" rx="12" fill="#0C447C"/>
+            <polygon points="24,7 36,14 36,32 24,39 12,32 12,14" stroke="#1D9E75" stroke-width="2" fill="none" stroke-linejoin="round"/>
+            <polygon points="24,15 30,19 30,27 24,31 18,27 18,19" stroke="white" stroke-width="1.2" fill="rgba(255,255,255,0.07)" stroke-linejoin="round"/>
+            <circle cx="24" cy="23" r="3" fill="#1D9E75"/>
+          </svg>
+          <div>
+            <div class="product-name">On<span style="font-weight:300;color:var(--muted)">Gest</span></div>
+          </div>
+        </div>
+        <p class="product-sub">Plataforma académica</p>
+        <p class="product-desc">
+          El sistema completo de evaluación para institutos de inglés. Exámenes con múltiple choice, redacción, audio y speaking grabado. Seguimiento por nivel CEFR. Certificados con verificación pública.
+        </p>
+      </div>
+      <div class="product-features">
+        <div class="feature-row"><span class="feature-dot"></span>Evaluaciones con speaking grabado en tiempo real</div>
+        <div class="feature-row"><span class="feature-dot"></span>Radar hexagonal de habilidades (6 skills)</div>
+        <div class="feature-row"><span class="feature-dot"></span>Banco de preguntas por nivel CEFR y dificultad</div>
+        <div class="feature-row"><span class="feature-dot"></span>Certificados PDF con hash de verificación pública</div>
+        <div class="feature-row"><span class="feature-dot"></span>Dashboard del director con alertas en tiempo real</div>
+        <div class="feature-row"><span class="feature-dot"></span>Multi-tenant: URL propia por instituto</div>
+      </div>
+      <div class="product-card-footer">
+        <a href="https://ongest.vercel.app" class="product-link" target="_blank">
+          Ir a ongest.vercel.app <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- EDUGEST -->
+    <div class="product-card edugest-accent">
+      <div class="product-card-header">
+        <div class="product-logo-row">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect width="48" height="48" rx="12" fill="#3C3489"/>
+            <rect x="14" y="24" width="20" height="16" rx="2" stroke="white" stroke-width="1.6" fill="none"/>
+            <path d="M11 24 L24 14 L37 24" stroke="white" stroke-width="1.6" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+            <rect x="19" y="30" width="10" height="10" rx="1.5" fill="white" opacity=".92"/>
+            <rect x="15" y="26" width="6.5" height="5" rx="1" fill="white" opacity=".4"/>
+            <rect x="26.5" y="26" width="6.5" height="5" rx="1" fill="white" opacity=".4"/>
+            <circle cx="37" cy="17" r="7" fill="#D85A30"/>
+            <text x="37" y="20.5" font-family="sans-serif" font-size="9" font-weight="800" fill="white" text-anchor="middle">$</text>
+          </svg>
+          <div>
+            <div class="product-name">Edu<span style="font-weight:300;color:var(--muted)">Gest</span></div>
+          </div>
+        </div>
+        <p class="product-sub">Plataforma operativa</p>
+        <p class="product-desc">
+          La gestión completa del negocio de tu instituto. Pagos en segundos con recibo por WhatsApp, legajo digital de alumnos, liquidación docente y cierre financiero mensual sin armar planillas.
+        </p>
+      </div>
+      <div class="product-features">
+        <div class="feature-row"><span class="feature-dot"></span>Registro de pago en menos de 30 segundos</div>
+        <div class="feature-row"><span class="feature-dot"></span>Recibo digital instantáneo por WhatsApp</div>
+        <div class="feature-row"><span class="feature-dot"></span>Legajo digital completo por alumno</div>
+        <div class="feature-row"><span class="feature-dot"></span>Liquidación mensual automática de docentes</div>
+        <div class="feature-row"><span class="feature-dot"></span>Dashboard ejecutivo con cierre financiero</div>
+        <div class="feature-row"><span class="feature-dot"></span>Atención al cliente con tasa de conversión</div>
+      </div>
+      <div class="product-card-footer">
+        <a href="https://next-ezeiza.vercel.app" class="product-link" target="_blank">
+          Ver demo EduGest <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+  </div><!-- /section-inner -->
+</section>
+
+<!-- ══════════ DIFERENCIADORES ══════════ -->
+<section id="diferenciadores" style="padding-top:0;">
+  <div class="section-inner">
+  <p class="section-label reveal">Por qué GestLabs</p>
+  <h2 class="section-title reveal">Lo que otros no hacen,<br/><em>nosotros sí</em></h2>
+
+  <div class="diff-grid reveal">
+
+    <div class="diff-item">
+      <div class="diff-icon" style="background:rgba(12,68,124,0.08);">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="#0C447C" stroke-width="1.5"/><path d="M7 8L10 5L13 8" stroke="#0C447C" stroke-width="1.3" fill="none"/><path d="M10 5V14" stroke="#0C447C" stroke-width="1.3"/></svg>
+      </div>
+      <p class="diff-title">Speaking integrado</p>
+      <p class="diff-body">Los alumnos graban su respuesta oral dentro del examen. Sin apps externas, sin links, sin fricción.</p>
+    </div>
+
+    <div class="diff-item">
+      <div class="diff-icon" style="background:rgba(29,158,117,0.09);">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><polygon points="10,3 14,6.5 14,13.5 10,17 6,13.5 6,6.5" stroke="#1D9E75" stroke-width="1.4" fill="none"/><circle cx="10" cy="10" r="2" fill="#1D9E75"/></svg>
+      </div>
+      <p class="diff-title">Radar de habilidades</p>
+      <p class="diff-body">Visualización hexagonal por skill. El alumno ve exactamente en qué área mejorar y recibe recomendaciones personalizadas.</p>
+    </div>
+
+    <div class="diff-item">
+      <div class="diff-icon" style="background:rgba(216,90,48,0.09);">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="6" width="12" height="10" rx="2" stroke="#D85A30" stroke-width="1.4" fill="none"/><path d="M8 6V4.5C8 3.67 8.67 3 9.5 3H10.5C11.33 3 12 3.67 12 4.5V6" stroke="#D85A30" stroke-width="1.4" fill="none"/><path d="M4 10H16" stroke="#D85A30" stroke-width="1.4"/></svg>
+      </div>
+      <p class="diff-title">Pago en 30 segundos</p>
+      <p class="diff-body">Carga la cuota, elige el alumno, confirma. Recibo por WhatsApp al instante. Menos llamados, menos olvidos, más cobros.</p>
+    </div>
+
+    <div class="diff-item">
+      <div class="diff-icon" style="background:rgba(60,52,137,0.09);">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3L17 7V13L10 17L3 13V7L10 3Z" stroke="#3C3489" stroke-width="1.4" fill="none"/><path d="M10 3V10M10 10L17 7M10 10L3 7" stroke="#3C3489" stroke-width="1.1" opacity=".5"/></svg>
+      </div>
+      <p class="diff-title">Multi-tenant nativo</p>
+      <p class="diff-body">Cada instituto opera en su propio entorno aislado. Los datos de una sede nunca se mezclan con otra. Garantizado por Row Level Security.</p>
+    </div>
+
+    <div class="diff-item">
+      <div class="diff-icon" style="background:rgba(29,158,117,0.09);">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="11" rx="2" stroke="#1D9E75" stroke-width="1.4" fill="none"/><path d="M3 9H17" stroke="#1D9E75" stroke-width="1.4"/><path d="M7 5V3M13 5V3" stroke="#1D9E75" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </div>
+      <p class="diff-title">Alta en 24 horas</p>
+      <p class="diff-body">Confirmás, cargamos tus datos, capacitamos al equipo en una videollamada de 60 minutos. Operando el mismo día.</p>
+    </div>
+
+    <div class="diff-item">
+      <div class="diff-icon" style="background:rgba(12,68,124,0.08);">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3C6.134 3 3 6.134 3 10C3 13.866 6.134 17 10 17C13.866 17 17 13.866 17 10" stroke="#0C447C" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M13 3H17V7" stroke="#0C447C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M17 3L11 9" stroke="#0C447C" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <p class="diff-title">Certificados verificables</p>
+      <p class="diff-body">Hash único por certificado. Cualquier empleador puede verificar la autenticidad sin necesidad de login ni registro.</p>
+    </div>
+
+  </div>
+  </div><!-- /section-inner -->
+</section>
+
+<!-- ══════════ PRUEBA SOCIAL ══════════ -->
+<section class="proof-section" id="instituciones">
+  <div class="proof-inner reveal">
+    <div>
+      <p class="proof-quote">
+        "Antes tardaba una hora en armar el reporte mensual. Ahora lo tengo en treinta segundos desde el celular."
+      </p>
+      <p class="proof-author">Patricio M. · <strong>Director, Next Ezeiza</strong></p>
+    </div>
+    <div class="proof-stat-block">
+      <div class="proof-stat">
+        <span class="proof-stat-num" style="color:var(--on-blue);">4h</span>
+        <p class="proof-stat-desc">ahorradas por semana en tareas administrativas repetitivas.</p>
+      </div>
+      <div class="proof-stat">
+        <span class="proof-stat-num" style="color:var(--edu-v2);">7d</span>
+        <p class="proof-stat-desc">de prueba gratuita con acceso completo a todas las funcionalidades.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ CTA ══════════ -->
+<section class="cta-section" id="demo">
+  <p class="section-label reveal" style="text-align:center;">Empezar ahora</p>
+  <h2 class="cta-title reveal">¿Llevamos GestLabs<br/>a tu instituto?</h2>
+  <p class="cta-sub reveal">
+    Demo en vivo con datos reales.<br/>
+    <strong>7 días de prueba gratis.</strong><br/>
+    Empezá a usar la plataforma en <strong>menos de una semana.</strong>
+  </p>
+  <div class="cta-actions reveal">
+    <a href="mailto:hola@gestlabs.com" class="btn-ghost">Enviar un email</a>
+    <a href="https://wa.me/5491131749358" class="btn-primary btn-wa" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5C4.41 1.5 1.5 4.41 1.5 8C1.5 9.17 1.82 10.26 2.37 11.19L1.5 14.5L4.89 13.64C5.8 14.16 6.86 14.46 8 14.46C11.59 14.46 14.5 11.55 14.5 7.96C14.5 4.41 11.59 1.5 8 1.5Z" stroke="white" stroke-width="1.3" fill="none"/><path d="M6 6C6 6 6 5 7 5C8 5 8 6 7.5 7C7 8 6 8 6 9C6 10 7 10 7 10" stroke="white" stroke-width="1.3" stroke-linecap="round" fill="none"/></svg>
+      Hablar por WhatsApp
+    </a>
+  </div>
+  <p class="cta-note reveal">Sin contrato largo · Sin setup complejo · Soporte incluido</p>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer id="contacto">
+  <div class="footer-logo">Gest<span>Labs</span></div>
+  <p class="footer-legal">Desarrollado por GestLabs · Buenos Aires, Argentina</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(
+  entries => entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
+  { threshold: 0.12 }
+);
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
