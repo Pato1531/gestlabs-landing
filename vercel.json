@@ -1,15 +1,15 @@
 {
-  "version": 2,
-  "builds": [
+  "buildCommand": "echo 'Static site'",
+  "outputDirectory": ".",
+  "headers": [
     {
-      "src": "index.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/favicon.ico",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
     }
   ]
 }
